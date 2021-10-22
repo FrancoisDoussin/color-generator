@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import { useState } from "react";
 import './App.css';
 
 function App() {
+  // definir un état couleur
+  const [color, setColor] = useState("blue");
+  // creer une fonction appelé au click
+  // onclick sur qqch
+  const handleClick = () => {
+    setColor("#" + ((1<<24)*Math.random() | 0).toString(16))
+  }
+
+  const handleCopyColor = () => {
+    navigator.clipboard.writeText(color)
+  }
+
+  // changer notre état
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="color-container">
+      <div style={{backgroundColor: color}} className="color" onClick={handleClick}></div>
+      <p onClick={handleCopyColor} className="color-copy">{color}</p>
     </div>
   );
 }
