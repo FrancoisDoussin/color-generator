@@ -1,25 +1,49 @@
 import { useState } from "react";
+
+import generateColor from './utils/colorGenerator';
+
 import './App.css';
 
 function App() {
-  // definir un état couleur
-  const [color, setColor] = useState("blue");
-  // creer une fonction appelé au click
-  // onclick sur qqch
-  const handleClick = () => {
-    setColor("#" + ((1<<24)*Math.random() | 0).toString(16))
+  const [color, setColor] = useState(generateColor());
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleClick = (event) => {
+    if (event.currentTarget === event.target) {
+      setColor(generateColor())
+      setIsCopied(false);
+    }
   }
 
   const handleCopyColor = () => {
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 3000)
     navigator.clipboard.writeText(color)
   }
 
-  // changer notre état
   return (
-    <div className="color-container">
-      <div style={{backgroundColor: color}} className="color" onClick={handleClick}></div>
-      <p onClick={handleCopyColor} className="color-copy">{color}</p>
-    </div>
+    <>
+      { isCopied && 
+        <div className="copied">
+          Copied !
+        </div>
+      }
+      <div
+        style={{ backgroundColor: color }}
+        onClick={handleClick}
+        className="color-container"
+      >
+        <p
+          style={{ color: color }}
+          onClick={handleCopyColor}
+          className="color-code"
+        >
+          {color}
+        </p>
+      </div>
+    </>
   );
 }
 
