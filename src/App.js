@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import generateColor from './utils/colorGenerator';
 
@@ -8,8 +8,12 @@ function App() {
   const [color, setColor] = useState(generateColor());
   const [isCopied, setIsCopied] = useState(false);
 
+  useEffect(() => {
+    document.addEventListener('keyup', handleClick);
+  }, [])
+
   const handleClick = (event) => {
-    if (event.currentTarget === event.target) {
+    if (event.currentTarget === event.target || event.key === ' ') {
       setColor(generateColor())
       setIsCopied(false);
     }
